@@ -1,6 +1,17 @@
+using Microsoft.EntityFrameworkCore;
 using minimal_api.Dominio.DTOs;
+using minimal_api.Infraestrutura.Db;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<DbContexto>(options =>
+{
+  options.UseMySql(
+    builder.Configuration.GetConnectionString("mysql"),
+    ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("mysql"))
+  );
+});
+
 var app = builder.Build();
 
 app.MapGet("/", () => "Hello World!");
@@ -19,3 +30,4 @@ app.MapPost("/login", (LoginDTO loginDTO) =>
 
 app.Run();
 
+// Parei em: Criando Seed para cadastrar administrador padrão.
